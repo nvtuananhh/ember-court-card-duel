@@ -1,0 +1,167 @@
+/* styles.css — the Ember Court table: felt, gold trim, and cards that stay
+   readable when the screenshot shrinks to a thumbnail. */
+:root {
+  --felt: #14532d;
+  --felt-dark: #0b3520;
+  --gold: #f2c531;
+  --ink: #1c2430;
+  --paper: #fffdf5;
+  --ember: #ff5a2e;
+  --tide: #2e9bff;
+  --thorn: #37b24d;
+  --star: #f2c531;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: radial-gradient(circle at 50% 30%, #1c6b3a 0%, var(--felt) 45%, var(--felt-dark) 100%);
+  color: #f8f4e8;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+#app { max-width: 1180px; margin: 0 auto; padding: 14px 18px 26px; }
+
+header.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brand { font-size: 26px; letter-spacing: 2px; color: var(--gold); font-weight: bold; }
+.brand small { display: block; font-size: 12px; letter-spacing: 3px; color: #d8cfae; font-weight: normal; }
+
+.lifeboard { display: flex; gap: 14px; align-items: center; }
+.life {
+  background: rgba(0, 0, 0, 0.35); border: 2px solid var(--gold); border-radius: 12px;
+  padding: 6px 16px; text-align: center; min-width: 128px;
+}
+.life .who { font-size: 12px; letter-spacing: 2px; color: #e8dfc0; }
+.life .hp { font-size: 34px; line-height: 1; font-weight: bold; }
+.life .hp small { font-size: 15px; color: #d8cfae; }
+.life.low .hp { color: #ff7a5c; animation: pulse 0.9s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.55; } }
+
+.roundline { font-size: 15px; color: #e8dfc0; text-align: center; margin: 6px 0 2px; }
+.leanline { text-align: center; font-size: 16px; margin: 4px 0 10px; }
+.lean-chip {
+  display: inline-block; padding: 3px 12px; border-radius: 999px; font-weight: bold;
+  color: #fff; border: 2px solid #fff; box-shadow: 0 0 14px currentColor;
+}
+.lean-chip.ember { background: var(--ember); }
+.lean-chip.tide { background: var(--tide); }
+.lean-chip.thorn { background: var(--thorn); color: #10240f; }
+.lean-chip.star { background: var(--star); color: #4a3800; }
+
+.hand-label { font-size: 13px; letter-spacing: 2px; color: #d8cfae; margin: 8px 2px 4px; }
+.hand { display: flex; gap: 10px; flex-wrap: wrap; min-height: 158px; align-items: stretch; }
+
+.arena {
+  display: flex; gap: 26px; justify-content: center; align-items: center;
+  margin: 12px 0; min-height: 190px;
+  background: rgba(0, 0, 0, 0.22); border: 2px dashed rgba(242, 197, 49, 0.55);
+  border-radius: 16px; padding: 12px;
+}
+.arena-slot { text-align: center; }
+.arena-slot .slot-name { font-size: 13px; letter-spacing: 2px; margin-bottom: 6px; color: #e8dfc0; }
+.arena-vs { font-size: 30px; color: var(--gold); font-weight: bold; }
+.power-badge { font-size: 17px; font-weight: bold; margin-top: 6px; color: #fff; text-align: center; }
+.arena-empty { color: #b9d6c0; font-size: 16px; padding: 30px 10px; }
+
+/* ---- Cards ---- */
+.card {
+  width: 104px; height: 148px; border-radius: 12px; cursor: pointer;
+  background: var(--paper); color: var(--ink); position: relative;
+  border: 4px solid #888; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+  user-select: none; flex: 0 0 auto;
+}
+.card:hover { transform: translateY(-8px); box-shadow: 0 14px 22px rgba(0, 0, 0, 0.55); }
+.card.selected { transform: translateY(-14px); outline: 4px solid var(--gold); box-shadow: 0 0 0 4px rgba(242,197,49,.35), 0 18px 26px rgba(0,0,0,.6); }
+.card.dealt { animation: deal-in 0.45s ease both; }
+@keyframes deal-in {
+  from { transform: translateY(-26px) rotate(-4deg); opacity: 0; }
+  to { transform: translateY(0) rotate(0); opacity: 1; }
+}
+.card.played { animation: flip-in 0.5s ease both; cursor: default; }
+@keyframes flip-in {
+  from { transform: rotateY(90deg) scale(0.85); opacity: 0.2; }
+  to { transform: rotateY(0) scale(1); opacity: 1; }
+}
+.card.winner-glow { box-shadow: 0 0 26px 6px var(--gold); }
+.card.suit-ember { border-color: var(--ember); }
+.card.suit-tide { border-color: var(--tide); }
+.card.suit-thorn { border-color: var(--thorn); }
+.card.suit-star { border-color: var(--star); }
+.card .corner { position: absolute; top: 6px; left: 8px; text-align: center; line-height: 1; }
+.card .corner.br { top: auto; left: auto; bottom: 6px; right: 8px; }
+.card .corner .num { font-size: 21px; font-weight: bold; }
+.card .corner svg { display: block; margin: 3px auto 0; }
+.card .big { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+.card .big .value { font-size: 52px; font-weight: bold; line-height: 1; }
+.card .big .suitname { font-size: 13px; letter-spacing: 2px; font-weight: bold; }
+.card .key-hint {
+  position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: #fff; font-size: 11px; border-radius: 8px; padding: 1px 7px;
+}
+.card.back {
+  background: repeating-linear-gradient(45deg, #7a1f1f 0 12px, #a83232 12px 24px);
+  border-color: var(--gold); display: flex; align-items: center; justify-content: center;
+  cursor: default;
+}
+.card.back .back-star { font-size: 44px; color: var(--gold); }
+.card.back:hover { transform: none; }
+.card.small { width: 84px; height: 118px; }
+.card.small .big .value { font-size: 40px; }
+.card.small .corner .num { font-size: 17px; }
+
+/* ---- Messages, controls ---- */
+.message {
+  text-align: center; font-size: 19px; min-height: 30px; margin: 8px 0;
+  color: #fff8dd; font-style: italic;
+}
+.message strong { color: var(--gold); font-style: normal; }
+.controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+button {
+  font-family: inherit; font-size: 17px; font-weight: bold; cursor: pointer;
+  background: var(--gold); color: #3a2c00; border: none; border-radius: 10px;
+  padding: 10px 22px; box-shadow: 0 4px 0 #a8841a;
+}
+button:active { transform: translateY(3px); box-shadow: none; }
+button.ghost { background: rgba(255,255,255,0.14); color: #fff; box-shadow: none; border: 1px solid rgba(255,255,255,0.5); }
+.hint { text-align: center; color: #cfe3d2; font-size: 14px; margin-top: 8px; }
+
+/* ---- Overlays: title / win / loss ---- */
+.overlay {
+  position: fixed; inset: 0; background: rgba(4, 26, 14, 0.88);
+  display: flex; align-items: center; justify-content: center; z-index: 10; padding: 16px;
+}
+.panel {
+  background: linear-gradient(180deg, #fffdf5, #f3e9c8); color: var(--ink);
+  border: 5px solid var(--gold); border-radius: 20px; padding: 30px 38px;
+  max-width: 680px; width: 100%; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,.6);
+  animation: panel-in 0.4s ease both; max-height: 92vh; overflow: auto;
+}
+@keyframes panel-in { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.panel h1 { margin: 0 0 4px; font-size: 52px; letter-spacing: 3px; color: #7a1f1f; }
+.panel h1.win { color: #1c6b3a; }
+.panel h2 { margin: 0 0 10px; font-size: 20px; letter-spacing: 2px; color: #6b5a1e; font-weight: normal; }
+.panel p { font-size: 17px; line-height: 1.5; }
+.legend { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 14px 0; }
+.legend .legend-item { border: 2px solid #999; border-radius: 10px; padding: 8px 12px; background: #fff; min-width: 110px; }
+.legend .legend-item svg { display: block; margin: 0 auto 4px; }
+.legend .legend-item b { font-size: 15px; }
+.legend .legend-item span { display: block; font-size: 12px; color: #555; }
+.cycle { font-size: 15px; background: #fff; border-radius: 10px; padding: 8px 12px; border: 1px dashed #999; }
+.stats { font-size: 18px; margin: 12px 0; }
+.confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 9; }
+.confetti i {
+  position: absolute; top: -14px; width: 10px; height: 16px; opacity: 0.95;
+  animation: fall 2.6s linear infinite;
+}
+@keyframes fall { to { transform: translateY(105vh) rotate(720deg); } }
+.glow-win { animation: win-glow 1.2s ease-in-out infinite; }
+@keyframes win-glow { 50% { box-shadow: 0 0 44px 12px var(--gold); } }
+.mute-btn { position: fixed; top: 12px; right: 14px; z-index: 20; padding: 7px 12px; font-size: 14px; }
+footer { text-align: center; color: #9db8a4; font-size: 12px; margin-top: 14px; }
